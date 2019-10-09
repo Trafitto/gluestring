@@ -16,6 +16,23 @@ class TestGluegun(unittest.TestCase):
         self.assertEqual(
             result_string, 'Get 30% off . Get 40% if SUPER user. ')
 
+    def test_gluegun__custom_delimiters(self):
+        delimiters = {"start": "[[", "end": "]]"}
+        g1 = Gluegun(offer_dictionary, delimiters)
+        temp_test_offer_string = test_offer_string.replace(
+            "{{", "[[").replace("}}", "]]")
+        result_string = g1.glue_it(temp_test_offer_string)
+        self.assertEqual(
+            result_string, 'Get 30% off . Get 40% if SUPER user. ')
+
+        delimiters = {"start": "<<", "end": ">>"}
+        g1 = Gluegun(offer_dictionary, delimiters)
+        temp_test_offer_string = test_offer_string.replace(
+            "{{", "<<").replace("}}", ">>")
+        result_string = g1.glue_it(temp_test_offer_string)
+        self.assertEqual(
+            result_string, 'Get 30% off . Get 40% if SUPER user. ')
+
     def test_gluegun__with_no_parameters_should_not_throw_error(self):
         g1 = Gluegun()
         result_string = g1.glue_it(test_offer_string)
@@ -77,35 +94,34 @@ class TestGluegun(unittest.TestCase):
             result_string_list[2], 'Hello my name is NA and 52')
 
     def test_gluegun_glueit__liststring_dictionary(self):
-        in_string = ["Hello my name is {{name}} and {{age}}","{{name}} is a good {{gender}}"]
+        in_string = [
+            "Hello my name is {{name}} and {{age}}", "{{name}} is a good {{gender}}"]
         in_dictionary = {
             "name": "Foo",
-            "gender":"woman"
+            "gender": "woman"
         }
         sut = Gluegun(in_dictionary)
         result_string_list = sut.glue_it(in_string)
 
-        self.assertEqual(len(result_string_list),2)
+        self.assertEqual(len(result_string_list), 2)
         self.assertEqual(
             result_string_list[0], 'Hello my name is Foo and NA')
         self.assertEqual(
             result_string_list[1], 'Foo is a good woman')
 
-
-
-
     def test_gluegun_glueit__liststring_listdictionary(self):
-        in_string = ["Hello my name is {{name}} and {{age}}","{{name}} is a good {{gender}}"]
+        in_string = [
+            "Hello my name is {{name}} and {{age}}", "{{name}} is a good {{gender}}"]
         in_dictionary = [{
             "name": "Foo",
-            "gender":"woman"
-        },{
-            "age":14
+            "gender": "woman"
+        }, {
+            "age": 14
         }]
         sut = Gluegun(in_dictionary)
         result_string_list = sut.glue_it(in_string)
 
-        self.assertEqual(len(result_string_list),4)
+        self.assertEqual(len(result_string_list), 4)
         self.assertEqual(
             result_string_list[0], 'Hello my name is Foo and NA')
         self.assertEqual(
@@ -114,7 +130,6 @@ class TestGluegun(unittest.TestCase):
             result_string_list[2], 'Foo is a good woman')
         self.assertEqual(
             result_string_list[3], 'NA is a good NA')
-
 
     # def test_gluegun_glueit__liststring_listdictionary(self):
 
