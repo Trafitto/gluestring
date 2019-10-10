@@ -1,5 +1,5 @@
 import re
-from gluestring.default import DEFAULT_DELIMITERS
+from gluestring.default import DEFAULT_OPTIONS
 
 
 def _get_regex_delimiter(values):
@@ -8,8 +8,8 @@ def _get_regex_delimiter(values):
         delimiter += f"\{value}"
     return delimiter
 
-def resolve_string(templateString, dictionaryToMatch, delimiters=DEFAULT_DELIMITERS):
-
+def resolve_string(templateString, dictionaryToMatch, options=DEFAULT_OPTIONS):
+    delimiters = options['delimiters']
     pattern = re.compile(r'{start}([^{not_match}$]*){end}'.format(
         start=_get_regex_delimiter(delimiters['start']),
         not_match=delimiters['end'][0],
@@ -32,10 +32,11 @@ def resolve_string(templateString, dictionaryToMatch, delimiters=DEFAULT_DELIMIT
 #     for templateString in templateStringList:
 
 
-def resolve_mxn(templateStringList, dictionaryToMatchList, delimiters=DEFAULT_DELIMITERS):
+def resolve_mxn(templateStringList, dictionaryToMatchList, options=DEFAULT_OPTIONS):
+    
     result = []
     for templateString in templateStringList:
         for dictionaryToMatch in dictionaryToMatchList:
             result.append(resolve_string(templateString,
-                                         dictionaryToMatch, delimiters))
+                                         dictionaryToMatch, options))
     return result

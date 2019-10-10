@@ -18,7 +18,7 @@ class TestGluegun(unittest.TestCase):
 
     def test_gluegun__custom_delimiters(self):
         delimiters = {"start": "[[", "end": "]]"}
-        g1 = Gluegun(offer_dictionary, delimiters)
+        g1 = Gluegun(offer_dictionary, {"delimiters": delimiters})
         temp_test_offer_string = test_offer_string.replace(
             "{{", "[[").replace("}}", "]]")
         result_string = g1.glue_it(temp_test_offer_string)
@@ -26,7 +26,7 @@ class TestGluegun(unittest.TestCase):
             result_string, 'Get 30% off . Get 40% if SUPER user. ')
 
         delimiters = {"start": "<<", "end": ">>"}
-        g1 = Gluegun(offer_dictionary, delimiters)
+        g1 = Gluegun(offer_dictionary, {"delimiters": delimiters})
         temp_test_offer_string = test_offer_string.replace(
             "{{", "<<").replace("}}", ">>")
         result_string = g1.glue_it(temp_test_offer_string)
