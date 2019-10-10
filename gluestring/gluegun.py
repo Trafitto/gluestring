@@ -1,13 +1,5 @@
 from gluestring.main import resolve_mxn, resolve_string
-
-DEFAULT_DICTIONARY = {
-    "default": "NA"
-}
-
-DEFAULT_DELIMITERS = {
-    "start": "{{",
-    "end": "}}",
-}
+from gluestring.default import DEFAULT_DICTIONARY, DEFAULT_DELIMITERS
 
 
 class Gluegun:
